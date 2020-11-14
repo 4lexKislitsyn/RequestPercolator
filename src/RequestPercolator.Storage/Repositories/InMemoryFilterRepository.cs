@@ -1,7 +1,8 @@
-﻿using RequestPercolator.Model.Contracts;
+﻿using Microsoft.Extensions.Options;
+using RequestPercolator.Model.Contracts;
 using RequestPercolator.Model.Exceptions;
+using RequestPercolator.Model.Settings;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,11 +10,16 @@ namespace RequestPercolator.Storage.Repositories
 {
     internal sealed class InMemoryFilterRepository : IFilterRepository
     {
-        private readonly Dictionary<Guid, string> filters = new Dictionary<Guid, string>();
+        private readonly InMemoryFilterRepositorySettings repositorySettings;
+
+        public InMemoryFilterRepository(IOptions<InMemoryFilterRepositorySettings> repositorySettingsOptions)
+        {
+            repositorySettings = repositorySettingsOptions.Value ?? new InMemoryFilterRepositorySettings();
+        }
 
         public Task<string> GetFilterAsync(Guid id, CancellationToken cancellationToken)
         {
-            return filters.TryGetValue(id, out var filter)
+            return repositorySettings.Filters.TryGetValue(id.ToString("N"), out var filter)
                 ? Task.FromResult(filter)
                 : throw new NotFoundException($"Filter with ID '{id}' was not found");
         }

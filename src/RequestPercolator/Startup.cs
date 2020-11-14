@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
+using RequestPercolator.Model.Settings;
 
 namespace RequestPercolator
 {
@@ -25,12 +26,12 @@ namespace RequestPercolator
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddReverseProxy()
-                .LoadFromConfig(configuration);
-            services
-                .AddPercolatorLogic()
+            services.AddReverseProxy().LoadFromConfig(configuration);
+
+            services.AddPercolatorLogic()
                 .AddPercolatorApi()
                 .AddPercolatorStorage();
+
             services.AddControllers();
 
             services.AddProblemDetails(opt =>
@@ -53,6 +54,8 @@ namespace RequestPercolator
             });
 
             services.AddHealthChecks();
+
+            services.Configure<InMemoryFilterRepositorySettings>(configuration.GetSection($"Storage:{nameof(InMemoryFilterRepositorySettings)}"));
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
