@@ -38,8 +38,21 @@ namespace RequestPercolator.Logic.Services
         {
             using var reader = new StreamReader(request.Body);
             using var jsonReader = new JsonTextReader(reader);
-            var document = await JObject.LoadAsync(jsonReader, jsonLoadSettings, cancellationToken);
-            return document.SelectToken(filter) is null
+            while (jsonReader.TokenType != JsonToken.StartObject && jsonReader.TokenType != JsonToken.StartArray)
+            {
+                if (!await jsonReader.ReadAsync())
+                {
+                    return PercolationResult.Failed;
+                }
+            }
+
+            var array = jsonReader.TokenType switch
+            {
+                JsonToken.StartObject => new JArray(await JObject.LoadAsync(jsonReader, jsonLoadSettings, cancellationToken)),
+                JsonToken.StartArray => await JArray.LoadAsync(jsonReader, jsonLoadSettings, cancellationToken),
+            };
+
+            return array.SelectToken(filter) is null
                 ? PercolationResult.Failed
                 : PercolationResult.Success;
         }

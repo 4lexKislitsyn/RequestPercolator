@@ -21,6 +21,10 @@ namespace RequestPercolator.API.Proxy
             var container = context.HttpContext.RequestServices.GetRequiredService<ProxyHandlerContainer>();
             await proxy.ProxyAsync(context.HttpContext, destinationAddress, container.HttpClient, container.ProxyOptions);
 
+            if (context.HttpContext.RequestAborted.IsCancellationRequested)
+            {
+                return;
+            }
             var errorFeature = context.HttpContext.Features.Get<IProxyErrorFeature>();
             if (errorFeature != null)
             {
