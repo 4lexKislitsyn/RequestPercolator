@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestPercolator.Logic", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestPercolator.Model", "src\RequestPercolator.Model\RequestPercolator.Model.csproj", "{D4AAC502-8D53-4654-A31F-29795A5081D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestPercolator.API", "src\RequestPercolator.API\RequestPercolator.API.csproj", "{65FA41E4-7330-4C4F-BF0E-3D5D4D56A8B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestPercolator.API", "src\RequestPercolator.API\RequestPercolator.API.csproj", "{65FA41E4-7330-4C4F-BF0E-3D5D4D56A8B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestPercolator.Storage", "src\RequestPercolator.Storage\RequestPercolator.Storage.csproj", "{1F598F6E-6576-4ABE-B116-0DE93486CF6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{65FA41E4-7330-4C4F-BF0E-3D5D4D56A8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65FA41E4-7330-4C4F-BF0E-3D5D4D56A8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65FA41E4-7330-4C4F-BF0E-3D5D4D56A8B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F598F6E-6576-4ABE-B116-0DE93486CF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F598F6E-6576-4ABE-B116-0DE93486CF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F598F6E-6576-4ABE-B116-0DE93486CF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F598F6E-6576-4ABE-B116-0DE93486CF6A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{931F0915-8520-446A-8728-696BAEBADB7C} = {7941C363-D122-445B-9F69-1E4C49342887}
 		{D4AAC502-8D53-4654-A31F-29795A5081D8} = {7941C363-D122-445B-9F69-1E4C49342887}
 		{65FA41E4-7330-4C4F-BF0E-3D5D4D56A8B0} = {7941C363-D122-445B-9F69-1E4C49342887}
+		{1F598F6E-6576-4ABE-B116-0DE93486CF6A} = {7941C363-D122-445B-9F69-1E4C49342887}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69C0870C-5BB0-4141-A3E5-430B9574F139}

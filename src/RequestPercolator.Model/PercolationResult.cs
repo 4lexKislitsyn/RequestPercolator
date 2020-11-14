@@ -2,7 +2,7 @@
 {
     public enum PercolationResult
     {
-        ShouldBeReversed,
-        ShouldBeSkipped
+        Success,
+        Failed
     }
 }

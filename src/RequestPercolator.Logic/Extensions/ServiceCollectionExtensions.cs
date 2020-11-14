@@ -1,5 +1,6 @@
 ﻿using RequestPercolator.Model.Contracts;
 using RequestPercolator.Logic.Services;
+using RequestPercolator.Logic.Contracts;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -7,7 +8,9 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddPercolatorLogic(this IServiceCollection services)
         {
-            return services.AddSingleton<IPercolationService, PercolationService>();
+            return services.AddScoped<IPercolationService, PercolationService>()
+                .AddSingleton<IRequestPercolationHandler, JsonRequestPercolationHandler>()
+                .AddSingleton<IRequestPercolationHandler, XmlRequestPercolationHandler>();
         }
     }
 }

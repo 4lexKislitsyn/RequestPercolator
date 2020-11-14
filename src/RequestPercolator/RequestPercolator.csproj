@@ -13,6 +13,7 @@
     <ProjectReference Include="..\RequestPercolator.API\RequestPercolator.API.csproj" />
     <ProjectReference Include="..\RequestPercolator.Logic\RequestPercolator.Logic.csproj" />
     <ProjectReference Include="..\RequestPercolator.Model\RequestPercolator.Model.csproj" />
+    <ProjectReference Include="..\RequestPercolator.Storage\RequestPercolator.Storage.csproj" />
   </ItemGroup>
 
 </Project>

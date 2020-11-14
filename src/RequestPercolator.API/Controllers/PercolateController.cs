@@ -43,8 +43,8 @@ namespace RequestPercolator.API.Controllers
             var result = await action();
             return result switch
             {
-                PercolationResult.ShouldBeReversed => new ReversedProxyResult(percolation.Destination),
-                PercolationResult.ShouldBeSkipped => new ObjectResult(new ProblemDetails
+                PercolationResult.Success => new ReversedProxyResult(percolation.Destination),
+                PercolationResult.Failed => new ObjectResult(new ProblemDetails
                 {
                     Status = StatusCodes.Status202Accepted,
                     Title = "Not reversed",

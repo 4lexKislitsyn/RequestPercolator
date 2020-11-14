@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Http;
 
 namespace RequestPercolator
 {
@@ -24,21 +25,16 @@ namespace RequestPercolator
         {
             services.AddReverseProxy()
                 .LoadFromConfig(configuration);
-            services.AddPercolatorLogic()
-                .AddPercolatorApi();
+            services
+                .AddPercolatorLogic()
+                .AddPercolatorApi()
+                .AddPercolatorStorage();
             services.AddControllers();
 
             services.AddProblemDetails(opt =>
             {
-                opt.IncludeExceptionDetails = (ctx, ex) => !environment.IsDevelopment();
-                opt.Map<ProxyErrorException>((ctx, ex) =>
-                {
-                    var details = new StatusCodeProblemDetails(ctx.Response.StatusCode);
-                    details.Detail = ex.Message;
-                    details.Extensions["errorType"] = ex.ErrorType;
-                    details.Extensions["exceptionMessage"] = ex.InnerException?.Message ?? string.Empty;
-                    return details;
-                });
+                opt.IncludeExceptionDetails = (ctx, ex) => environment.IsDevelopment();
+                MapExceptions(opt);
             });
 
             services.Configure<ApiBehaviorOptions>(opt =>
@@ -67,6 +63,21 @@ namespace RequestPercolator
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private static void MapExceptions(ProblemDetailsOptions opt)
+        {
+            opt.Map<ProxyErrorException>((ctx, ex) =>
+            {
+                var details = new StatusCodeProblemDetails(ctx.Response.StatusCode)
+                {
+                    Detail = ex.Message
+                };
+                details.Extensions["errorType"] = ex.ErrorType;
+                details.Extensions["exceptionMessage"] = ex.InnerException?.Message ?? string.Empty;
+                return details;
+            });
+            opt.MapToStatusCode<NotFoundException>(StatusCodes.Status404NotFound);
         }
     }
 }
