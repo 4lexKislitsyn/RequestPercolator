@@ -1,0 +1,19 @@
+version: '3.3'
+
+networks:
+  backend:
+
+services:
+
+  request-percolator:
+    ports:
+      - "5001:5000"
+    image: "request-percolator:${REQUEST_PERCOLATOR_VERSION}"
+    networks:
+      - backend
+    healthcheck:
+      test: curl -f -s 'http://127.0.0.1:5000/status' | grep -q '"status":"Healthy"' || exit 1
+      interval: 15s
+      timeout: 15s
+      retries: 3
+    restart: unless-stopped

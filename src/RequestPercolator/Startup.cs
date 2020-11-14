@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
 
 namespace RequestPercolator
 {
@@ -49,6 +51,8 @@ namespace RequestPercolator
                     };
                 }
             });
+
+            services.AddHealthChecks();
         }
 
         public void Configure(IApplicationBuilder app, IHostEnvironment env)
@@ -59,10 +63,20 @@ namespace RequestPercolator
             }
             app.UseProblemDetails();
             app.UseRouting();
+            app.UseHealthChecks("/status", GetHealthCheckOptions());
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private HealthCheckOptions GetHealthCheckOptions()
+        {
+            var options = configuration.GetSection(nameof(HealthCheckOptions)).Get<HealthCheckOptions>()
+                ?? new HealthCheckOptions();
+            options.Predicate = _ => true;
+            options.ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse;
+            return options;
         }
 
         private static void MapExceptions(ProblemDetailsOptions opt)
