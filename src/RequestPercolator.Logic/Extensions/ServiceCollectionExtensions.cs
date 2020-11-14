@@ -1,16 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using RequestPercolator.Model.Contracts;
+﻿using RequestPercolator.Model.Contracts;
+using RequestPercolator.Logic.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddLogic(this IServiceCollection services)
+        public static IServiceCollection AddPercolatorLogic(this IServiceCollection services)
         {
-            return services.AddSingleton<IPercolatorProxyService, RequestPercolator.Logic.Services.PercolatorProxyService>();
+            return services.AddSingleton<IPercolationService, PercolationService>();
         }
     }
 }
