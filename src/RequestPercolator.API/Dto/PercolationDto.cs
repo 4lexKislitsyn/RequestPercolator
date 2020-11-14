@@ -7,6 +7,7 @@ namespace RequestPercolator.API.Dto
     {
         [Url]
         [Required]
+        [MinLength(8)]
         [BindProperty(Name = InternalConstants.DestinationKey)]
         public string Destination { get; set; }
     }

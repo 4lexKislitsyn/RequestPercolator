@@ -25,7 +25,7 @@ namespace RequestPercolator.API.Controllers
         [HttpPut(FilterIdTemplate)]
         [HttpPost(FilterIdTemplate)]
         [HttpPatch(FilterIdTemplate)]
-        public Task<IActionResult> PercolateByFilterAsync(Guid filterId, [FromQuery] PercolationDto percolation, CancellationToken cancellationToken)
+        public Task<IActionResult> PercolateByFilterAsync([FromRoute] Guid filterId, [FromQuery] PercolationDto percolation, CancellationToken cancellationToken)
         {
             return HandlePercolationResult(percolation, () => percolationService.PercolateRequestAsync(Request, filterId, cancellationToken));
         }

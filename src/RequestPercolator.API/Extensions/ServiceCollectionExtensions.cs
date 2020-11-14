@@ -1,7 +1,4 @@
-﻿using Hellang.Middleware.ProblemDetails;
-using Microsoft.AspNetCore.Mvc;
-using RequestPercolator.API.Proxy;
-using RequestPercolator.Model.Exceptions;
+﻿using RequestPercolator.API.Proxy;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

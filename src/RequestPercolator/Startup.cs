@@ -4,6 +4,9 @@ using Microsoft.Extensions.Hosting;
 using Hellang.Middleware.ProblemDetails;
 using RequestPercolator.Model.Exceptions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace RequestPercolator
 {
@@ -27,14 +30,28 @@ namespace RequestPercolator
 
             services.AddProblemDetails(opt =>
             {
-                opt.IncludeExceptionDetails = (ctx, ex) => !environment.IsProduction();
+                opt.IncludeExceptionDetails = (ctx, ex) => !environment.IsDevelopment();
                 opt.Map<ProxyErrorException>((ctx, ex) =>
                 {
                     var details = new StatusCodeProblemDetails(ctx.Response.StatusCode);
+                    details.Detail = ex.Message;
                     details.Extensions["errorType"] = ex.ErrorType;
                     details.Extensions["exceptionMessage"] = ex.InnerException?.Message ?? string.Empty;
                     return details;
                 });
+            });
+
+            services.Configure<ApiBehaviorOptions>(opt =>
+            {
+                opt.ClientErrorMapping.Clear();
+                foreach (int statusCode in Enum.GetValues(typeof(System.Net.HttpStatusCode)))
+                {
+                    opt.ClientErrorMapping[statusCode] = new ClientErrorData
+                    {
+                        Link = $"https://httpstatuses.com/{statusCode}",
+                        Title = ReasonPhrases.GetReasonPhrase(statusCode),
+                    };
+                }
             });
         }
 
@@ -44,7 +61,6 @@ namespace RequestPercolator
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseProblemDetails();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
