@@ -7,11 +7,9 @@ on:
     notes:
       description: 'Change notes'
       required: true
-      default: ''
     version:
       description: 'Release version without prerelease postfix'
       required: true
-      default: '0.0.1'
 
 name: Create Release
 
