@@ -34,13 +34,14 @@ namespace RequestPercolator.Logic.Services
 
         private IRequestPercolationHandler SelectHandler(HttpRequest request, string filter)
         {
-            var candidates = requestHandlers.Where(x => x.CanHandleRequest(request));
+            var candidates = requestHandlers
+                .Where(x => x.CanHandleRequest(request)).ToArray();
             if (!candidates.Any())
             {
                 throw new NotSupportedException($"Request cannot be handled.");
             }
 
-             return candidates.FirstOrDefault(x => x.CanHandleFilter(filter))
+            return candidates.FirstOrDefault(x => x.CanHandleFilter(filter))
                 ?? throw new FormatException($"Expression '{filter}' cannot be handled by any of handlers.");
         }
     }

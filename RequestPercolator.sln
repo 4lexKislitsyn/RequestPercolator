@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7941C363-D122-445B-9F69-1E4C49342887}"
+ProjectSection(SolutionItems) = preProject
+	src\Directory.Build.props = src\Directory.Build.props
+EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestPercolator", "src\RequestPercolator\RequestPercolator.csproj", "{0F861CD1-EC36-4590-8DFC-EDB024AEE149}"
 EndProject
@@ -14,6 +17,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestPercolator.API", "src\RequestPercolator.API\RequestPercolator.API.csproj", "{65FA41E4-7330-4C4F-BF0E-3D5D4D56A8B0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestPercolator.Storage", "src\RequestPercolator.Storage\RequestPercolator.Storage.csproj", "{1F598F6E-6576-4ABE-B116-0DE93486CF6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{00645989-CFD1-428F-A3DF-3B9B3E90A84A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestPercolator.Logic.Tests", "tests\RequestPercolator.Logic.Tests\RequestPercolator.Logic.Tests.csproj", "{6801CC39-FDFB-4798-AC0F-0F0936DB4A31}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +48,10 @@ Global
 		{1F598F6E-6576-4ABE-B116-0DE93486CF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F598F6E-6576-4ABE-B116-0DE93486CF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F598F6E-6576-4ABE-B116-0DE93486CF6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6801CC39-FDFB-4798-AC0F-0F0936DB4A31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6801CC39-FDFB-4798-AC0F-0F0936DB4A31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6801CC39-FDFB-4798-AC0F-0F0936DB4A31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6801CC39-FDFB-4798-AC0F-0F0936DB4A31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +62,7 @@ Global
 		{D4AAC502-8D53-4654-A31F-29795A5081D8} = {7941C363-D122-445B-9F69-1E4C49342887}
 		{65FA41E4-7330-4C4F-BF0E-3D5D4D56A8B0} = {7941C363-D122-445B-9F69-1E4C49342887}
 		{1F598F6E-6576-4ABE-B116-0DE93486CF6A} = {7941C363-D122-445B-9F69-1E4C49342887}
+		{6801CC39-FDFB-4798-AC0F-0F0936DB4A31} = {00645989-CFD1-428F-A3DF-3B9B3E90A84A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69C0870C-5BB0-4141-A3E5-430B9574F139}

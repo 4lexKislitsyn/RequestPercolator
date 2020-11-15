@@ -9,9 +9,8 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace RequestPercolator.Logic.Services
 {
-    internal sealed class XmlRequestPercolationHandler : MimeTypeRequestPercolationService
+    internal sealed class XmlRequestPercolationHandler : MimeTypeRequestPercolationHandler
     {
-
         protected override IReadOnlyCollection<string> SupportedMimeTypes { get; } = new[]
         {
             Application.Xml
@@ -25,7 +24,7 @@ namespace RequestPercolator.Logic.Services
                 bool boolValue => boolValue,
                 string stringValue => !string.IsNullOrWhiteSpace(stringValue),
                 double doubleValue => doubleValue > 0,
-                object obj => obj != null,
+                { } => true
             };
             return success
                 ? PercolationResult.Success

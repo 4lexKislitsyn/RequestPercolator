@@ -2,7 +2,7 @@
 {
     public enum PercolationResult
     {
-        Success,
-        Failed
+        Failed = 0,
+        Success = 1,
     }
 }

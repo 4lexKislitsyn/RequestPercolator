@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -11,7 +12,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace RequestPercolator.Logic.Services
 {
-    internal sealed class JsonRequestPercolationHandler : MimeTypeRequestPercolationService
+    internal sealed class JsonRequestPercolationHandler : MimeTypeRequestPercolationHandler
     {
         private readonly JsonLoadSettings jsonLoadSettings;
 
@@ -40,7 +41,7 @@ namespace RequestPercolator.Logic.Services
             using var jsonReader = new JsonTextReader(reader);
             while (jsonReader.TokenType != JsonToken.StartObject && jsonReader.TokenType != JsonToken.StartArray)
             {
-                if (!await jsonReader.ReadAsync())
+                if (!await jsonReader.ReadAsync(cancellationToken))
                 {
                     return PercolationResult.Failed;
                 }
@@ -50,11 +51,25 @@ namespace RequestPercolator.Logic.Services
             {
                 JsonToken.StartObject => new JArray(await JObject.LoadAsync(jsonReader, jsonLoadSettings, cancellationToken)),
                 JsonToken.StartArray => await JArray.LoadAsync(jsonReader, jsonLoadSettings, cancellationToken),
+                _ => throw new FormatException("Object or array start was not found"),
             };
 
             return array.SelectToken(filter) is null
                 ? PercolationResult.Failed
                 : PercolationResult.Success;
+        }
+
+        public override bool CanHandleFilter(string filter)
+        {
+            try
+            {
+                new JObject().SelectToken(filter);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

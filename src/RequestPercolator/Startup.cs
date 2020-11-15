@@ -36,7 +36,7 @@ namespace RequestPercolator
 
             services.AddProblemDetails(opt =>
             {
-                opt.IncludeExceptionDetails = (ctx, ex) => environment.IsDevelopment();
+                opt.IncludeExceptionDetails = (_, _) => environment.IsDevelopment();
                 MapExceptions(opt);
             });
 
