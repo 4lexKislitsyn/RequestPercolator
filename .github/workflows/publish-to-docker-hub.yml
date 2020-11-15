@@ -11,15 +11,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Prepare
-        id: prep
-        run: |
-          DOCKERHUB_IMAGE=${{ secrets.DOCKER_IMAGE_NAME }}
-          VERSION=${GITHUB_REF#refs/tags/v}
-          TAGS="${DOCKERHUB_IMAGE}:${VERSION},${DOCKERHUB_IMAGE}:latest"
-          echo ::set-output name=tags::${TAGS}
-          echo ::set-output name=version::${VERSION}
-          echo ::set-output name=dockerhub_image::${DOCKERHUB_IMAGE}
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: ${{ secrets.DOCKER_IMAGE_NAME }}
+          tag-sha: ${{ github.event.release.prerelease }}
 
       - name: Set up Docker Buildx
         id: buildx
@@ -36,5 +33,5 @@ jobs:
         with:
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ steps.prep.outputs.tags }}
-          labels: org.opencontainers.image.version=${{ steps.prep.outputs.version }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: org.opencontainers.image.version=${{ steps.docker_meta.outputs.version }}
