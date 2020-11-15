@@ -4,6 +4,7 @@ WORKDIR /opt/app
 # copy csproj and restore as distinct layers
 COPY *.sln .
 COPY src/ ./src/
+COPY tests/ ./tests/
 RUN dotnet restore
 RUN dotnet publish -c Release -o out
 

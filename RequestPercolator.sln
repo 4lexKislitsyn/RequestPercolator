@@ -19,6 +19,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestPercolator.Storage", "src\RequestPercolator.Storage\RequestPercolator.Storage.csproj", "{1F598F6E-6576-4ABE-B116-0DE93486CF6A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{00645989-CFD1-428F-A3DF-3B9B3E90A84A}"
+ProjectSection(SolutionItems) = preProject
+	tests\Directory.Build.props = tests\Directory.Build.props
+EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestPercolator.Logic.Tests", "tests\RequestPercolator.Logic.Tests\RequestPercolator.Logic.Tests.csproj", "{6801CC39-FDFB-4798-AC0F-0F0936DB4A31}"
 EndProject
