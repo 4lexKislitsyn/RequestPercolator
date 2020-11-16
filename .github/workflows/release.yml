@@ -24,14 +24,14 @@ jobs:
         uses: actions/checkout@master
       - id: vars
         run: |
-          short_sha = $(git rev-parse --short=6 ${sha})
+          short_sha=$(git rev-parse --short=6 ${sha})
           echo ::set-output name=sha_short::${short_sha}
           echo $(short_sha)
         env:
           sha: ${{ github.sha }}
       - id: extract_branch
         run: |
-          branch = ${GITHUB_REF#refs/heads/}
+          branch=${GITHUB_REF#refs/heads/}
           echo ::set-output name=branch_name::${branch}
         env:
           GITHUB_REF: ${{ github.ref }}
