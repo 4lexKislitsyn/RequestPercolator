@@ -22,17 +22,13 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      - id: vars
+      - name: Set outputs
+        id: vars
         run: |
-          short_sha=$(git rev-parse --short=6 ${sha})
-          echo ::set-output name=sha_short::${short_sha}
-          echo $(short_sha)
-        env:
-          sha: ${{ github.sha }}
+          echo ::set-output name=sha_short::$(git rev-parse --short HEAD)
       - id: extract_branch
         run: |
-          branch=${GITHUB_REF#refs/heads/}
-          echo ::set-output name=branch_name::${branch}
+          echo ::set-output name=branch_name::${GITHUB_REF#refs/heads/}
         env:
           GITHUB_REF: ${{ github.ref }}
       - name: Create Release for ${{ github.event.inputs.version }} (branch ${{ steps.extract_branch.branch_name }})
@@ -41,8 +37,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{github.event.inputs.version}}-alpha-${{ steps.vars.sha_short }}
-          release_name: Prerelease from branch '${{ steps.extract_branch.branch_name }}'
+          tag_name: v${{github.event.inputs.version}}-alpha-${{ steps.vars.outputs.sha_short }}
+          release_name: Prerelease from branch '${{ steps.extract_branch.outputs.branch_name }}'
           body: ${{github.event.inputs.notes}}
           draft: true
           prerelease: true
