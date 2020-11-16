@@ -1,16 +1,17 @@
 on:
   workflow_dispatch:
-    prerelease:
-      description: 'Start prerelease'
-      required: true
-      default: true
-    version:
-      description: 'Release version without prerelease postfix'
-      required: true
-      default: '0.0.1'
-    notes:
-      required: false
-      default: ''
+    inputs:
+      prerelease:
+        description: 'Start prerelease'
+        required: true
+        default: true
+      version:
+        description: 'Release version without prerelease postfix'
+        required: true
+        default: '0.0.1'
+      notes:
+        required: true
+        default: ''
 
 name: Create Release
 
@@ -27,7 +28,9 @@ jobs:
       - id: extract_branch
         run: |
           echo ::set-env name=branch_name::$(echo ${GITHUB_REF#refs/heads/})
-      - name: Create Release
+        env:
+          GITHUB_REF: ${{ github.ref }}
+      - name: Create Release for ${{ github.event.inputs.version }}
         id: create_release
         uses: juitnow/github-action-create-release@v1
         env:
