@@ -22,9 +22,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
+      - run: |
+          echo $(git rev-parse --short=4 ${sha})
+        env:
+          sha:  ${{ github.sha }}
       - id: vars
         run: |
-          echo ::set-output name=sha_short::$(git rev-parse --short=4 ${{ github.sha }})
+          echo ::set-output name=sha_short::$(git rev-parse --short=4 ${sha})
+        env:
+          sha: ${{ github.sha }}
       - id: extract_branch
         run: |
           echo ::set-env name=branch_name::$(echo ${GITHUB_REF#refs/heads/})
