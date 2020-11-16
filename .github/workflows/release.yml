@@ -22,21 +22,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@master
-      - run: |
-          echo $(git rev-parse --short=4 ${sha})
-        env:
-          sha:  ${{ github.sha }}
       - id: vars
         run: |
-          echo ::set-output name=sha_short::$(git rev-parse --short=4 ${sha})
+          short_sha = $(git rev-parse --short=6 ${sha})
+          echo ::set-output name=sha_short::${short_sha}
+          echo $(short_sha)
         env:
           sha: ${{ github.sha }}
       - id: extract_branch
         run: |
-          echo ::set-env name=branch_name::$(echo ${GITHUB_REF#refs/heads/})
+          branch = ${GITHUB_REF#refs/heads/}
+          echo ::set-output name=branch_name::${branch}
         env:
           GITHUB_REF: ${{ github.ref }}
-      - name: Create Release for ${{ github.event.inputs.version }}
+      - name: Create Release for ${{ github.event.inputs.version }} (branch ${{ steps.extract_branch.branch_name }})
         id: create_release
         uses: juitnow/github-action-create-release@v1
         env:
